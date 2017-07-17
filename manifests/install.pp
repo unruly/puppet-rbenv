@@ -17,8 +17,8 @@ define rbenv::install(
     require rbenv::dependencies
   }
 
-  exec { "rbenv::checkout ${user}":
-    command => "git clone git://github.com/sstephenson/rbenv.git?ref=v1.0.0 ${root_path}",
+  exec { "rbenv::clone ${user}":
+    command => "git clone git://github.com/sstephenson/rbenv.git ${root_path}",
     user    => $user,
     group   => $group,
     creates => $root_path,
@@ -26,6 +26,17 @@ define rbenv::install(
     timeout => 100,
     cwd => $home_path,
     require => Package['git'],
+  }
+
+  exec { "rbenv::checkout ${user}":
+    command => "git checkout v1.0.0",
+    user    => $user,
+    group   => $group,
+    creates => $root_path,
+    path    => ['/usr/bin', '/usr/sbin'],
+    timeout => 100,
+    cwd => $home_path,
+    require => Exec["rbenv::clone ${user}"],
   }
 
   file { "rbenv::rbenvrc ${user}":
