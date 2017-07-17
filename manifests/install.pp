@@ -18,7 +18,7 @@ define rbenv::install(
   }
 
   exec { "rbenv::checkout ${user}":
-    command => "git clone git://github.com/sstephenson/rbenv.git ${root_path}",
+    command => "git clone git://github.com/sstephenson/rbenv.git?ref=v1.0.0 ${root_path}",
     user    => $user,
     group   => $group,
     creates => $root_path,
