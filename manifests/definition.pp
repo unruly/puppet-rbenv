@@ -22,7 +22,7 @@ define rbenv::definition(
     }
   } elsif $source =~ /http(s)?:/ {
     exec { "rbenv::definition-file ${user} ${ruby}":
-      command => "wget ${source} -O ${destination}",
+      command => "wget --no-check-certificate ${source} -O ${destination}",
       creates => $destination,
       user    => $user,
       require => Exec["rbenv::plugin::checkout ${user} ruby-build"],
